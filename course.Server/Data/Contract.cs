@@ -9,13 +9,17 @@ namespace course.Server.Data
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(Agent))]
+        [ForeignKey(nameof(AgentId))]
+        public Agent Agent { get; set; }
         public int AgentId { get; set; }
 
-        [ForeignKey(nameof(Client))]
+        [ForeignKey(nameof(ClientId))]
+        public Client Client { get; set; }
         public int ClientId { get; set; }
+        
 
-        [ForeignKey(nameof(InsuranceCase))]
+        [ForeignKey(nameof(InsuranceCaseId))]
+        public InsuranceCase InsuranceCase { get; set; }
         public int InsuranceCaseId { get; set; }
 
         [Required]

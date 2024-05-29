@@ -9,7 +9,8 @@ namespace course.Server.Data
         [Key]
         public int ID { get; set; }
 
-        [ForeignKey(nameof(InsuranceType))]
+        [ForeignKey(nameof(TypeID))]
+        public InsuranceType InsuranceType { get; set; }
         public int TypeID { get; set; }
 
         [Required]

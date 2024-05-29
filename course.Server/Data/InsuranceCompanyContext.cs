@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace course.Server.Data
 {
@@ -6,6 +8,7 @@ namespace course.Server.Data
     {
         public InsuranceCompanyContext(DbContextOptions<InsuranceCompanyContext> options) : base(options)
         {
+            
         }
 
         public DbSet<InsuranceType> InsuranceTypes { get; set; }
@@ -14,13 +17,18 @@ namespace course.Server.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Contract> Contracts { get; set; }
 
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<InsuranceType>().ToTable("InsuranceTypes");
-            modelBuilder.Entity<InsuranceCase>().ToTable("InsuranceCases");
-            modelBuilder.Entity<Agent>().ToTable("Agents");            
-            modelBuilder.Entity<Client>().ToTable("Clients");
-            modelBuilder.Entity<Contract>().ToTable("Contracts");
+            base.OnModelCreating(modelBuilder);
+        }
+        protected override void ConfigureConventions(ModelConfigurationBuilder builder)
+        {
+            builder.Properties<DateOnly>()
+               .HaveColumnType("date");
         }
     }
+
+    public class DateOnlyConverter() : ValueConverter<DateOnly, DateTime>(d => d.ToDateTime(TimeOnly.MinValue),
+        d => DateOnly.FromDateTime(d));
 }
